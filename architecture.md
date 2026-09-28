@@ -35,6 +35,24 @@ An incident is a group of related alerts about the same problem.
 | first_seen | When the first alert arrived | 10:15 AM |
 | last_seen | When the latest alert arrived | 10:16 AM |
 
+## Service Interfaces (who talks to whom)
+
+The services talk to each other over HTTP. One service sends a request to
+a URL on another service, and gets a reply.
+
+| # | From | To | Request | What it does |
+|---|---|---|---|---|
+| 1 | Alertmanager | Alert Ingestion | POST /webhook/alert | Sends a new alert |
+| 2 | Alert Ingestion | Correlation Engine | POST /alerts | Forwards the alert for grouping |
+| 3 | Remediation Service | Correlation Engine | GET /incidents?status=open | Asks "what is currently broken?" |
+| 4 | Remediation Service | Ansible | ansible-playbook (command) | Runs the fix for an incident |
+| 5 | Remediation Service | Correlation Engine | POST /incidents/{id}/resolve | Marks the incident auto_resolved or escalated |
+
+Replies:
+- Correlation Engine replies to request 2 with the incident id and whether
+  the alert was "merged" into an existing incident or a new one was "created".
+- Correlation Engine replies to request 3 with the list of open incidents.
+
 ## Service 1: Alert Ingestion
 - Purpose: receive alerts from Alertmanager
 - Input: JSON alert (alert name, resource id, severity)
