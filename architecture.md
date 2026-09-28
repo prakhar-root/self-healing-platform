@@ -10,6 +10,31 @@ Alert Ingestion Service receives them -> Correlation Engine groups related
 alerts into one incident -> Remediation Service picks the fix -> Ansible
 playbook performs the fix -> Grafana shows what happened.
 
+## Data Model
+
+### Alert
+An alert is one small warning message from Prometheus.
+
+| Field | Meaning | Example |
+|---|---|---|
+| alertname | What the problem is | HighCPU |
+| resource_id | Which container it is about | order-service |
+| severity | How bad it is | warning or critical |
+| timestamp | When it happened | 10:15 AM |
+
+### Incident
+An incident is a group of related alerts about the same problem.
+
+| Field | Meaning | Example |
+|---|---|---|
+| incident_id | A unique number for the incident | inc-001 |
+| resource_id | Which container it is about | order-service |
+| alerts | The list of alerts inside this incident | HighCPU, SlowResponse |
+| severity | The worst severity among its alerts | critical |
+| status | Where the incident stands | open, auto_resolved, or escalated |
+| first_seen | When the first alert arrived | 10:15 AM |
+| last_seen | When the latest alert arrived | 10:16 AM |
+
 ## Service 1: Alert Ingestion
 - Purpose: receive alerts from Alertmanager
 - Input: JSON alert (alert name, resource id, severity)
