@@ -136,3 +136,22 @@ bookkeeping around these rules.
 3. Correlation Engine merges them into 1 incident
 4. Remediation Service runs the restart playbook
 5. Incident marked auto-resolved; Grafana shows it
+
+
+
+
+
+
+
+
+
+<img width="1284" height="1053" alt="image" src="https://github.com/user-attachments/assets/92c32cae-d6eb-4c10-b7bf-ada47e177846" />
+
+
+
+
+
+
+git add architecture.md
+git commit -m "Complete architecture design document"
+git push
