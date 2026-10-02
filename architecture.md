@@ -138,10 +138,3 @@ bookkeeping around these rules.
 5. Incident marked auto-resolved; Grafana shows it
 
 
-
-
-
-
-
-
-
