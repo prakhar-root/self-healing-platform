@@ -136,3 +136,12 @@ bookkeeping around these rules.
 3. Correlation Engine merges them into 1 incident
 4. Remediation Service runs the restart playbook
 5. Incident marked auto-resolved; Grafana shows it
+
+
+
+
+
+
+
+
+
