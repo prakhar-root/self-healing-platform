@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Scale the service (placeholder - real scaling added in Kubernetes phase)
+      debug:
+        msg: "Would scale {{ resource_id }} here. Real scaling will be implemented via Kubernetes HPA in a later phase."
+        
