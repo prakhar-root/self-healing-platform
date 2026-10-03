@@ -1,3 +1,7 @@
+<img width="1375" height="1128" alt="image" src="https://github.com/user-attachments/assets/c078779b-06b0-40a3-83b1-65cc867f52e5" />
+
+
+
 # Self-Healing Infrastructure Platform: Architecture (Draft)
 
 ## Problem
