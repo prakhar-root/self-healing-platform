@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Restart the failing container
+      community.docker.docker_container:
+        name: "{{ resource_id }}"
+        restart: true
