@@ -1,0 +1,12 @@
+groups:
+  - name: self-healing
+    rules:
+      # Fires when a service stops answering for 10 seconds.
+      # The name must match a key in REMEDIATION_MAP (remediation_service.py).
+      - alert: HealthCheckFailed
+        expr: probe_success == 0
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.resource_id }} is not responding"

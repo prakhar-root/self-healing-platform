@@ -1,0 +1,12 @@
+route:
+  receiver: self-healing
+  group_by: ["alertname", "resource_id"]
+  group_wait: 5s
+  group_interval: 30s
+  repeat_interval: 1h
+
+receivers:
+  - name: self-healing
+    webhook_configs:
+      - url: "http://host.docker.internal:8000/webhook/alertmanager"
+        send_resolved: true 

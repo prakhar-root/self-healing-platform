@@ -23,6 +23,10 @@ class Alert(BaseModel):
 CORRELATION_WINDOW = timedelta(minutes=5)
 
 
+def severity_rank(severity):
+    return {"warning": 1, "critical": 2}.get(severity, 0)
+
+
 @app.post("/alerts")
 def receive_alert(alert: Alert):
     now = datetime.utcnow()
@@ -34,8 +38,11 @@ def receive_alert(alert: Alert):
             and inc["status"] == "open"
             and now - inc["last_seen"] <= CORRELATION_WINDOW
         ):
-            inc["alerts"].append(alert.alertname)
+            if alert.alertname not in inc["alerts"]:
+                inc["alerts"].append(alert.alertname)
             inc["last_seen"] = now
+            if severity_rank(alert.severity) > severity_rank(inc["severity"]):
+                inc["severity"] = alert.severity
             return {"incident_id": inc["incident_id"], "action": "merged"}
 
     # Step 2: no match found -> create a new incident
@@ -55,3 +62,13 @@ def receive_alert(alert: Alert):
 @app.get("/incidents")
 def list_incidents(status: str = "open"):
     return [inc for inc in incidents.values() if inc["status"] == status]
+
+
+@app.post("/incidents/{incident_id}/resolve")
+def resolve_incident(incident_id: str, status: str):
+    if incident_id not in incidents:
+        return {"error": "incident not found"}
+    if status not in ("auto_resolved", "escalated"):
+        return {"error": "status must be auto_resolved or escalated"}
+    incidents[incident_id]["status"] = status
+    return incidents[incident_id]

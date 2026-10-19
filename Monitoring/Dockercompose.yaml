@@ -1,0 +1,20 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    ports: ["9090:9090"]
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
+    extra_hosts: ["host.docker.internal:host-gateway"]
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    ports: ["9093:9093"]
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    extra_hosts: ["host.docker.internal:host-gateway"]
+
+  blackbox:
+    image: prom/blackbox-exporter:v0.25.0
+    ports: ["9115:9115"]
+    extra_hosts: ["host.docker.internal:host-gateway"]

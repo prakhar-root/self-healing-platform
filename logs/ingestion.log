@@ -1,0 +1,9 @@
+INFO:     Started server process [24860]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:47638 - "GET / HTTP/1.1" 200 OK
+Alertmanager alert: HealthCheckFailed for order-service
+INFO:     172.29.0.3:45026 - "POST /webhook/alertmanager HTTP/1.1" 200 OK
+Ignoring resolved notice for HealthCheckFailed
+INFO:     172.29.0.3:55652 - "POST /webhook/alertmanager HTTP/1.1" 200 OK
