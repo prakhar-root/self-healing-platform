@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
+import os
 import subprocess
 import threading
 import time
@@ -7,7 +8,8 @@ import time
 from fastapi import FastAPI
 import requests
 
-CORRELATION_ENGINE = "http://localhost:8001"
+# Inside Docker this is set to http://correlation-engine:8001
+CORRELATION_ENGINE = os.environ.get("CORRELATION_ENGINE", "http://localhost:8001")
 
 # How often the service checks for open incidents (seconds)
 CHECK_INTERVAL = 10

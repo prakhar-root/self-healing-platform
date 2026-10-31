@@ -1,10 +1,13 @@
+import os
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 import requests
 
 app = FastAPI()
 
-CORRELATION_ENGINE_URL = "http://localhost:8001/alerts"
+# Inside Docker this is set to http://correlation-engine:8001
+CORRELATION_ENGINE = os.environ.get("CORRELATION_ENGINE", "http://localhost:8001")
 
 
 @app.get("/")
@@ -21,7 +24,7 @@ class Alert(BaseModel):
 def forward_to_correlation_engine(alert_data):
     # Send one alert to the Correlation Engine and return its reply
     try:
-        response = requests.post(CORRELATION_ENGINE_URL, json=alert_data)
+        response = requests.post(f"{CORRELATION_ENGINE}/alerts", json=alert_data)
         return response.json()
     except requests.exceptions.ConnectionError:
         print("Could not reach the Correlation Engine")

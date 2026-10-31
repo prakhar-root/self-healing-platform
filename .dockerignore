@@ -1,0 +1,8 @@
+.venv
+.git
+logs
+__pycache__
+*.pyc
+monitoring
+Monitoring
+docs
